@@ -1,4 +1,4 @@
-const { initDB } = require('/dbConfig');
+const { initDB } = require('../api/dbConfig');
 
 const db = initDB(); 
 
