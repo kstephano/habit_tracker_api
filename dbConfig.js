@@ -1,7 +1,7 @@
 const { MongoClient } = require('mongodb');
 
 const dbName = "habit-tracker-db"; // db name
-const uri = process.env.MONGODB_URI;
+const uri = "mongodb+srv://AATTWM:<password>@cluster0.kxhwc.mongodb.net/myFirstDatabase?";
 
 async function initConnection() {
     // Create a new MongoClient
