@@ -12,11 +12,13 @@ async function initConnection() {
     return client;
 }
 
-const client = await initConnection();
-console.log(`connected to database ${dbName}`);
-const db = client.db(dbName);
+async function initDB() {
+    const client = await initConnection();
+    console.log(`connected to database ${dbName}`);
+    return client.db(dbName);
+}
 
-const db = initDB(); 
+const db = await initDB(); 
 
 db.users.drop();
 db.habits.drop();
