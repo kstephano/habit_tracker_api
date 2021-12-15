@@ -1,4 +1,6 @@
-const db = connect("mongodb+srv://AATTWM:<password>@cluster0.kxhwc.mongodb.net/myFirstDatabase?");
+const { initDB } = require('/dbConfig');
+
+const db = initDB(); 
 
 db.users.drop();
 db.habits.drop();
