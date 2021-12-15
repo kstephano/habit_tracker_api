@@ -1,11 +1,11 @@
 const { MongoClient } = require('mongodb');
 
-const dbUrl = process.env.DB_CONNECTION; // connection url
-const dbName = process.env.DB_NAME; // db name
+const dbName = "habit-tracker-db"; // db name
+const uri = process.env.MONGODB_URI;
 
 async function initConnection() {
     // Create a new MongoClient
-    const client = new MongoClient(dbUrl);
+    const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
     // Connect the client to the server
     await client.connect();
 
