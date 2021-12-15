@@ -1,0 +1,77 @@
+GET http://localhost:3000/users/
+
+###
+
+GET http://localhost:3000/users/initialUser@email.com
+
+###
+
+POST http://localhost:3000/auth/register
+Content-Type: application/json
+
+{
+    "email": "testUser2@email.com",
+    "password": "Test Password",
+    "userName": "Test User 4"
+}
+
+###
+
+POST http://localhost:3000/auth/login
+Content-Type: application/json
+
+{
+    "email": "initialUser@email.com",
+    "password": "Test Password"
+}
+
+###
+
+POST http://localhost:3000/auth/token
+Content-Type: application/json
+
+{
+    "email": "initialUser@email.com",
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyRW1haWwiOiJpbml0aWFsVXNlckBlbWFpbC5jb20iLCJ1c2VyTmFtZSI6IkluaXRpYWwgVXNlciIsImlhdCI6MTYzOTUwNDE2Nn0.HJRQ2AQrJ9qk9Huf9FZaixUjpeYGziS07xzEPk4VpF4"
+}
+
+###
+
+POST http://localhost:3000/auth/logout
+Content-Type: application/json
+
+{
+    "email": "initialUser@email.com",
+    "token": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyRW1haWwiOiJpbml0aWFsVXNlckBlbWFpbC5jb20iLCJ1c2VyTmFtZSI6IkluaXRpYWwgVXNlciIsImlhdCI6MTYzOTUwNDcwN30.zTASHCGode_memp_9dLOxw-BMPcEgS7GikJYditFTxE"
+}
+
+###
+
+GET http://localhost:3000/habits/initialUser@email.com
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyRW1haWwiOiJpbml0aWFsVXNlckBlbWFpbC5jb20iLCJ1c2VyTmFtZSI6IkluaXRpYWwgVXNlciIsImlhdCI6MTYzOTU4MDQ1MiwiZXhwIjoxNjM5NTgxNjUyfQ.Pv_Tb0MIpdQqKATata7496QkxzcaCaJb6HH61Dpv974
+
+###
+
+GET http://localhost:3000/habits/leaderboard/Water
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyRW1haWwiOiJpbml0aWFsVXNlckBlbWFpbC5jb20iLCJ1c2VyTmFtZSI6IkluaXRpYWwgVXNlciIsImlhdCI6MTYzOTU2NDUwMCwiZXhwIjoxNjM5NTY1NzAwfQ.GbcV7nhhHVMA9o_sfGQl4494sXxseZ56ZwM_y52vSXg
+
+###
+
+POST http://localhost:3000/habits/initialUser@email.com
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyRW1haWwiOiJpbml0aWFsVXNlckBlbWFpbC5jb20iLCJ1c2VyTmFtZSI6IkluaXRpYWwgVXNlciIsImlhdCI6MTYzOTU4MTcyOCwiZXhwIjoxNjM5NTgyOTI4fQ.7O86kcldsQ9XfbC3XGYmyDDd_xPoo_jyRTXl_yhdJBc
+
+{
+    "userName": "Initial User",
+    "habitName": "never",
+    "frequency": 1,
+    "unit": "boolean"
+}
+
+###
+
+DELETE http://localhost:3000/habits/61ba08a96bd5650eb9731787
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyRW1haWwiOiJpbml0aWFsVXNlckBlbWFpbC5jb20iLCJ1c2VyTmFtZSI6IkluaXRpYWwgVXNlciIsImlhdCI6MTYzOTU4MTcyOCwiZXhwIjoxNjM5NTgyOTI4fQ.7O86kcldsQ9XfbC3XGYmyDDd_xPoo_jyRTXl_yhdJBc
