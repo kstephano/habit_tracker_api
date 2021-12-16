@@ -28,7 +28,7 @@ class Habit {
                 const db = await initDB();
                 const habitData = await db.collection('habits').find({ userEmail: email }).toArray();
                 const habits = habitData.map(data => new Habit({ ...data, id: data._id }));
-                closeConnection();
+                await closeConnection();
                 resolve(habits);
             } catch (err) {
                 reject(`Habits couldn't be found for ${email}`);
@@ -52,7 +52,7 @@ class Habit {
                     { $sort: { topStreak: -1 } },
                     { $project: { userName: 1, topStreak: 1, _id: 0, frequency: 1, expectedAmount: 1, unit: 1 } }
                 ]).toArray();
-                closeConnection();
+                await closeConnection();
                 resolve (leaderboard);
             } catch (err) {
                 reject('Error getting leaderboard');
@@ -90,7 +90,7 @@ class Habit {
                     } },
                     { upsert: true, returnDocument: "after" }
                 );
-                closeConnection();
+                await closeConnection();
                 // check if habit already existed 
                 if (result.lastErrorObject.updatedExisting === true) {
                     reject('Habit already exists for user');
@@ -116,7 +116,7 @@ class Habit {
                 const db = await initDB();
                 const habitData = await db.collection('habits').find({ _id: ObjectId(id) }).toArray();
                 const habit = new Habit({ ...habitData[0], id: habitData[0]._id.toString()});
-                closeConnection();
+                await closeConnection();
                 resolve(habit);
             } catch (err) {
                 reject('Error finding habit by ID');
@@ -140,7 +140,7 @@ class Habit {
                     { $set: data },
                     { returnDocument: "after" }
                 );
-                closeConnection();
+                await closeConnection();
                 const updatedHabit = new Habit({ ...updatedHabitData.value, id: ObjectId(id) });
                 resolve(updatedHabit);
             } catch (err) {
@@ -160,7 +160,7 @@ class Habit {
             try {
                 const db = await initDB();
                 const result = await db.collection('habits').deleteOne({ _id: ObjectId(id) });
-                closeConnection();
+                await closeConnection();
                 // reject the request if no habit was found with the id
                 if (result.deletedCount == 0) reject('Habit does not exist');
                 resolve(result);
