@@ -26,7 +26,7 @@ async function login(req, res) {
             const payload = { userEmail: user.userEmail, userName: user.userName }
             
             // generate access and refresh tokens
-            const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '20m' });
+            const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1m' });
             const refreshToken = jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET);
             // add the refresh token to user's data
             await User.pushToken(user.userEmail, `Bearer ${refreshToken}`);
@@ -56,7 +56,7 @@ async function token(req, res) {
         // verify the refresh token
         jwt.verify(refreshToken.split(' ')[1], process.env.REFRESH_TOKEN_SECRET, (err, user) => {
             if (err) return res.sendStatus(403);
-            const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '20m' });
+            const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1m' });
             res.status(200).json({ accessToken: `Bearer ${accessToken}` });
         });
     } catch (err) {
