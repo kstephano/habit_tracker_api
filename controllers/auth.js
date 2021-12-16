@@ -46,6 +46,7 @@ async function token(req, res) {
         if (!user) throw new Error('No user with this email');
         const payload = { userEmail: user.userEmail, userName: user.userName }
         const refreshToken = req.body.token;
+        console.log(refreshToken);
 
         // check if refreshToken is null
         if (refreshToken == null) throw new Error('null token');
