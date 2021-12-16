@@ -71,7 +71,8 @@ async function token(req, res) {
 async function logout(req, res) {
     try {
         console.log(req.body);
-        const user = await User.findByEmail(req.body.email);
+        console.log(req.params.email);
+        const user = await User.findByEmail(req.params.email);
         if (!user) throw new Error('No user with this email');
         console.log(user);
         User.clearRefreshTokens(user.userEmail, req.body.token);
