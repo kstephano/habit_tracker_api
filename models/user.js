@@ -13,7 +13,7 @@ module.exports = class User {
             try {
                 const db = await initDB();
                 const result = await db.collection('users').find().toArray();
-                db.close();
+                closeConnection();
                 const users = result.map(user => new User({ ...user }));
                 res(users);
             } catch (err) {
@@ -27,7 +27,7 @@ module.exports = class User {
             try {
                 const db = await initDB();
                 let result = await db.collection('users').find({ userEmail: email }).toArray();
-                db.close();
+                closeConnection();
                 let user = new User(result[0]);
                 res(user);
             } catch (err) {
@@ -52,7 +52,7 @@ module.exports = class User {
                     { $setOnInsert: { userEmail: userEmail, passwordDigest: passwordDigest, userName: userName, refreshTokens:refreshTokens } },
                     { upsert: true, returnDocument: "after" }
                 );
-                db.close();
+                closeConnection();
                 // check if user already exists
                 if (result.lastErrorObject.updatedExisting === true) {
                     rej('Error: User already exists');
@@ -73,7 +73,7 @@ module.exports = class User {
                     { userEmail: email },
                     { $pull: { refreshTokens: token } }
                 );
-                db.close();
+                closeConnection();
                 res(clearedUser);
             } catch (err) {
                 rej(`Error clearing access token for user ${email}: ${err}`);
@@ -89,7 +89,7 @@ module.exports = class User {
                     { userEmail: email }, 
                     { $push: { refreshTokens: token } }
                 );
-                db.close();
+                closeConnection();
                 res(result);
             } catch (err) {
                 rej(`Error pushing access token for user ${email}: ${err}`);
