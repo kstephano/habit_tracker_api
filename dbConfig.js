@@ -20,7 +20,7 @@ async function initDB() {
 }
 
 async function closeConnection() {
-    if (client) {
+    if (isConnected) {
         await client.close();
     }
 }
