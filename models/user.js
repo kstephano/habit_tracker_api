@@ -1,4 +1,4 @@
-const { initDB } = require("../dbConfig")
+const { initDB, closeConnection } = require("../dbConfig")
 
 module.exports = class User {
     constructor(data) {
