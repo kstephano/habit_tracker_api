@@ -8,8 +8,8 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 
 async function initConnection() {
     // Connect the client to the server
+    console.log('connected to mongo');
     await client.connect();
-    return client;
 }
 
 async function initDB() {
