@@ -16,12 +16,15 @@ async function register(req, res) {
 }
 
 async function login(req, res) {
+    console.log(req.body.email);
+    console.log(req.body.password);
     try {
         const user = await User.findByEmail(req.body.email);
         if (!user) throw new Error('No user with this email');
         // decrypt and compare passwordDigest with entered password
         const authed = bcrypt.compare(req.body.password, user.passwordDigest);
         // create login token if password is correct
+        console.log(authed);
         if (!!authed) {
             const payload = { userEmail: user.userEmail, userName: user.userName }
             
