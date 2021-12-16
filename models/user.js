@@ -68,7 +68,7 @@ module.exports = class User {
     static clearRefreshTokens (email, token) {
         return new Promise (async (res, rej) => {
             try {
-                const db = client.db(dbName);
+                const db = await initDB();
                 const clearedUser = await db.collection('users').updateOne(
                     { userEmail: email },
                     { $pull: { refreshTokens: token } }
@@ -83,7 +83,7 @@ module.exports = class User {
     static pushToken (email, token) {
         return new Promise (async (res, rej) => {
             try {
-                const db = client.db(dbName);
+                const db = await initDB();
                 const result = db.collection('users').updateOne(
                     { userEmail: email }, 
                     { $push: { refreshTokens: token } }
