@@ -14,7 +14,7 @@ module.exports = class User {
         return new Promise (async (res, rej) => {
             try {
                 const client = await initConnection();
-                const db = await client.connect(dbName);
+                const db = await client.db(dbName);
                 const result = await db.collection('users').find().toArray();
                 await client.close();
                 const users = result.map(user => new User({ ...user }));
@@ -29,7 +29,7 @@ module.exports = class User {
         return new Promise (async (res, rej) => {
             try {
                 const client = await initConnection();
-                const db = await client.connect(dbName);
+                const db = await client.db(dbName);
                 let result = await db.collection('users').find({ userEmail: email }).toArray();
                 let user = new User(result[0]);
                 await client.close();
@@ -50,7 +50,7 @@ module.exports = class User {
                 }
 
                 const client = await initConnection();
-                const db = await client.connect(dbName);
+                const db = await client.db(dbName);
                 // find and update ONLY if being inserted
                 const result = await db.collection('users').findOneAndUpdate(
                     { userEmail: userEmail },
@@ -74,7 +74,7 @@ module.exports = class User {
         return new Promise (async (res, rej) => {
             try {
                 const client = await initConnection();
-                const db = await client.connect(dbName);
+                const db = await client.db(dbName);
                 const clearedUser = await db.collection('users').updateOne(
                     { userEmail: email },
                     { $pull: { refreshTokens: token } }
@@ -91,7 +91,7 @@ module.exports = class User {
         return new Promise (async (res, rej) => {
             try {
                 const client = await initConnection();
-                const db = await client.connect(dbName);
+                const db = await client.db(dbName);
                 const result = db.collection('users').updateOne(
                     { userEmail: email }, 
                     { $push: { refreshTokens: token } }

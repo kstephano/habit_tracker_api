@@ -28,7 +28,7 @@ class Habit {
         return new Promise(async (resolve, reject) => {
             try {
                 const client = await initConnection();
-                const db = await client.connect(dbName);
+                const db = await client.db(dbName);
                 const habitData = await db.collection('habits').find({ userEmail: email }).toArray();
                 const habits = habitData.map(data => new Habit({ ...data, id: data._id }));
                 await client.close()
@@ -49,7 +49,7 @@ class Habit {
         return new Promise (async (resolve, reject) => {
             try {
                 const client = await initConnection();
-                const db = await client.connect(dbName);
+                const db = await client.db(dbName);
                 const leaderboard = await db.collection("habits").aggregate([
                     { $match: { habitName: habitName } },
                     { $sort: { topStreak: -1 } },
@@ -76,7 +76,7 @@ class Habit {
                 const { userEmail, userName, habitName, frequency, unit, amount = 1 } = data;
 
                 const client = await initConnection();
-                const db = await client.connect(dbName);
+                const db = await client.db(dbName);
                 // find and update ONLY if being inserted
                 const result = await db.collection('habits').findOneAndUpdate(
                     { userEmail: userEmail, habitName: habitName },
@@ -118,7 +118,7 @@ class Habit {
         return new Promise (async (resolve, reject) => {
             try {
                 const client = await initConnection();
-                const db = await client.connect(dbName);
+                const db = await client.db(dbName);
                 const habitData = await db.collection('habits').find({ _id: ObjectId(id) }).toArray();
                 const habit = new Habit({ ...habitData[0], id: habitData[0]._id.toString()});
                 await client.close();
@@ -140,7 +140,7 @@ class Habit {
         return new Promise (async (resolve, reject) => {
             try {
                 const client = await initConnection();
-                const db = await client.connect(dbName);
+                const db = await client.db(dbName);
                 const updatedHabitData = await db.collection('habits').findOneAndUpdate(
                     { _id: ObjectId(id) },
                     { $set: data },
@@ -165,7 +165,7 @@ class Habit {
         return new Promise(async (resolve, reject) => {
             try {
                 const client = await initConnection();
-                const db = await client.connect(dbName);
+                const db = await client.db(dbName);
                 const result = await db.collection('habits').deleteOne({ _id: ObjectId(id) });
                 await client.close();
                 // reject the request if no habit was found with the id
