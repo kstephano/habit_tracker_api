@@ -27,7 +27,6 @@ module.exports = class User {
             try {
                 const db = await initDB();
                 let result = await db.collection('users').find({ userEmail: email }).toArray();
-                closeConnection();
                 let user = new User(result[0]);
                 res(user);
             } catch (err) {
@@ -89,7 +88,6 @@ module.exports = class User {
                     { userEmail: email }, 
                     { $push: { refreshTokens: token } }
                 );
-                closeConnection();
                 res(result);
             } catch (err) {
                 rej(`Error pushing access token for user ${email}: ${err}`);
