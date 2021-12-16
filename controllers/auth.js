@@ -42,7 +42,7 @@ async function login(req, res) {
 
 async function token(req, res) {
     try {
-        const user = await User.findByEmail(req.body.email);
+        const user = await User.findByEmail(req.params.email);
         if (!user) throw new Error('No user with this email');
         const payload = { userEmail: user.userEmail, userName: user.userName }
         const refreshToken = req.body.token;
