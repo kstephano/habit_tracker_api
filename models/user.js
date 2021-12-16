@@ -1,5 +1,7 @@
 const { initDB, closeConnection } = require("../dbConfig")
 
+const dbName = "habit-tracker"; // db nam
+
 module.exports = class User {
     constructor(data) {
         this.userEmail = data.userEmail
@@ -11,9 +13,10 @@ module.exports = class User {
     static get all () {
         return new Promise (async (res, rej) => {
             try {
-                const db = await initDB();
+                const client = await initConnection();
+                const db = await client.connect(dbName);
                 const result = await db.collection('users').find().toArray();
-                await closeConnection();
+                await client.close();
                 const users = result.map(user => new User({ ...user }));
                 res(users);
             } catch (err) {
@@ -25,9 +28,11 @@ module.exports = class User {
     static findByEmail (email) {
         return new Promise (async (res, rej) => {
             try {
-                const db = await initDB();
+                const client = await initConnection();
+                const db = await client.connect(dbName);
                 let result = await db.collection('users').find({ userEmail: email }).toArray();
                 let user = new User(result[0]);
+                await client.close();
                 res(user);
             } catch (err) {
                 rej(`Error finding user by email: ${err}`);
@@ -44,14 +49,15 @@ module.exports = class User {
                     throw new Error('Fields cannot be null or empty');
                 }
 
-                const db = await initDB();
+                const client = await initConnection();
+                const db = await client.connect(dbName);
                 // find and update ONLY if being inserted
                 const result = await db.collection('users').findOneAndUpdate(
                     { userEmail: userEmail },
                     { $setOnInsert: { userEmail: userEmail, passwordDigest: passwordDigest, userName: userName, refreshTokens:refreshTokens } },
                     { upsert: true, returnDocument: "after" }
                 );
-                await closeConnection();
+                await client.close();
                 // check if user already exists
                 if (result.lastErrorObject.updatedExisting === true) {
                     rej('Error: User already exists');
@@ -67,12 +73,13 @@ module.exports = class User {
     static clearRefreshTokens (email, token) {
         return new Promise (async (res, rej) => {
             try {
-                const db = await initDB();
+                const client = await initConnection();
+                const db = await client.connect(dbName);
                 const clearedUser = await db.collection('users').updateOne(
                     { userEmail: email },
                     { $pull: { refreshTokens: token } }
                 );
-                await closeConnection();
+                await client.close();
                 res(clearedUser);
             } catch (err) {
                 rej(`Error clearing access token for user ${email}: ${err}`);
@@ -83,12 +90,13 @@ module.exports = class User {
     static pushToken (email, token) {
         return new Promise (async (res, rej) => {
             try {
-                const db = await initDB();
+                const client = await initConnection();
+                const db = await client.connect(dbName);
                 const result = db.collection('users').updateOne(
                     { userEmail: email }, 
                     { $push: { refreshTokens: token } }
                 );
-                await closeConnection();
+                await client.close();
                 res(result);
             } catch (err) {
                 rej(`Error pushing access token for user ${email}: ${err}`);
