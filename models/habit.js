@@ -1,7 +1,5 @@
-const { initConnection } = require('../dbConfig');
+const { initDB } = require('../dbConfig');
 const { ObjectId } = require('bson');
-
-const dbName = process.env.MONGO_DBNAME; // db name
 
 class Habit {
     constructor(data){
@@ -27,11 +25,9 @@ class Habit {
     static findByEmail(email) {
         return new Promise(async (resolve, reject) => {
             try {
-                const client = await initConnection();
-                const db = client.db(dbName);
+                const db = await initDB();
                 const habitData = await db.collection('habits').find({ userEmail: email }).toArray();
                 const habits = habitData.map(data => new Habit({ ...data, id: data._id }));
-                await client.close()
                 resolve(habits);
             } catch (err) {
                 reject(`Habits couldn't be found for ${email}`);
@@ -48,14 +44,14 @@ class Habit {
     static leaderboard(habitName){
         return new Promise (async (resolve, reject) => {
             try {
-                const client = await initConnection();
-                const db = client.db(dbName);
+                console.log(habitName);
+                const db = await initDB();
                 const leaderboard = await db.collection("habits").aggregate([
                     { $match: { habitName: habitName } },
                     { $sort: { topStreak: -1 } },
                     { $project: { userName: 1, topStreak: 1, _id: 0, frequency: 1, expectedAmount: 1, unit: 1 } }
                 ]).toArray();
-                await client.close();
+
                 resolve (leaderboard);
             } catch (err) {
                 reject('Error getting leaderboard');
@@ -75,8 +71,7 @@ class Habit {
             try {
                 const { userEmail, userName, habitName, frequency, unit, amount = 1 } = data;
 
-                const client = await initConnection();
-                const db = client.db(dbName);
+                const db = await initDB();
                 // find and update ONLY if being inserted
                 const result = await db.collection('habits').findOneAndUpdate(
                     { userEmail: userEmail, habitName: habitName },
@@ -94,7 +89,6 @@ class Habit {
                     } },
                     { upsert: true, returnDocument: "after" }
                 );
-                await client.close();
                 // check if habit already existed 
                 if (result.lastErrorObject.updatedExisting === true) {
                     reject('Habit already exists for user');
@@ -117,11 +111,9 @@ class Habit {
     static findById(id) {
         return new Promise (async (resolve, reject) => {
             try {
-                const client = await initConnection();
-                const db = client.db(dbName);
+                const db = await initDB();
                 const habitData = await db.collection('habits').find({ _id: ObjectId(id) }).toArray();
                 const habit = new Habit({ ...habitData[0], id: habitData[0]._id.toString()});
-                await client.close();
                 resolve(habit);
             } catch (err) {
                 reject('Error finding habit by ID');
@@ -139,14 +131,12 @@ class Habit {
     static update(id, data) {
         return new Promise (async (resolve, reject) => {
             try {
-                const client = await initConnection();
-                const db = client.db(dbName);
+                const db = await initDB();
                 const updatedHabitData = await db.collection('habits').findOneAndUpdate(
                     { _id: ObjectId(id) },
                     { $set: data },
                     { returnDocument: "after" }
                 );
-                await client.close();
                 const updatedHabit = new Habit({ ...updatedHabitData.value, id: ObjectId(id) });
                 resolve(updatedHabit);
             } catch (err) {
@@ -164,10 +154,8 @@ class Habit {
     static destroy(id) {
         return new Promise(async (resolve, reject) => {
             try {
-                const client = await initConnection();
-                const db = client.db(dbName);
+                const db = await initDB();
                 const result = await db.collection('habits').deleteOne({ _id: ObjectId(id) });
-                await client.close();
                 // reject the request if no habit was found with the id
                 if (result.deletedCount == 0) reject('Habit does not exist');
                 resolve(result);
