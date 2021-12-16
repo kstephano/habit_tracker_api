@@ -20,8 +20,14 @@ async function initDB() {
 }
 
 async function closeConnection() {
-    await client.close();
+    if (client) {
+        await client.close();
+    }
 }
+
+function isConnected() {
+    return !!client && !!client.topology && client.topology.isConnected()
+  }
 
 module.exports = { 
     initConnection,
