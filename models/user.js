@@ -1,6 +1,6 @@
-const { initDB, closeConnection } = require("../dbConfig")
+const { initConnection } = require("../dbConfig")
 
-const dbName = "habit-tracker"; // db nam
+const dbName = process.env.MONGODB_NAME; // db name
 
 module.exports = class User {
     constructor(data) {

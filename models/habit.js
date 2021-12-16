@@ -1,7 +1,7 @@
-const { initDB, closeConnection, initConnection } = require('../dbConfig');
+const { initConnection } = require('../dbConfig');
 const { ObjectId } = require('bson');
 
-const dbName = "habit-tracker"; // db nam
+const dbName = process.env.MONGO_DBNAME; // db name
 
 class Habit {
     constructor(data){
