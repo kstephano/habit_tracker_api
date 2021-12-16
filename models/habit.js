@@ -44,14 +44,12 @@ class Habit {
     static leaderboard(habitName){
         return new Promise (async (resolve, reject) => {
             try {
-                console.log(habitName);
                 const db = await initDB();
                 const leaderboard = await db.collection("habits").aggregate([
                     { $match: { habitName: habitName } },
                     { $sort: { topStreak: -1 } },
                     { $project: { userName: 1, topStreak: 1, _id: 0, frequency: 1, expectedAmount: 1, unit: 1 } }
                 ]).toArray();
-
                 resolve (leaderboard);
             } catch (err) {
                 reject('Error getting leaderboard');
