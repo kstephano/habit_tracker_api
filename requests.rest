@@ -32,7 +32,7 @@ Content-Type: application/json
 
 {
     "email": "initialUser@email.com",
-    "token": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyRW1haWwiOiJpbml0aWFsVXNlckBlbWFpbC5jb20iLCJ1c2VyTmFtZSI6IkluaXRpYWwgVXNlciIsImlhdCI6MTYzOTYxMzkxMH0.CDW48Gniyw0uBhMbGLvXXpx-dBmA4bOt8PK4KuRRoCQ"
+    "token": ""
 }
 
 ###
@@ -42,26 +42,26 @@ Content-Type: application/json
 
 {
     "email": "initialUser@email.com",
-    "token": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyRW1haWwiOiJpbml0aWFsVXNlckBlbWFpbC5jb20iLCJ1c2VyTmFtZSI6IkluaXRpYWwgVXNlciIsImlhdCI6MTYzOTYxNDAwOH0.OWA-H5rbGrFZiDS4Dse9fJEmQJ3KA3LfXCWtRm5NoOU"
+    "token": ""
 }
 
 ###
 
 GET http://warm-forest-14168.herokuapp.com/habits/initialUser@email.com
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyRW1haWwiOiJpbml0aWFsVXNlckBlbWFpbC5jb20iLCJ1c2VyTmFtZSI6IkluaXRpYWwgVXNlciIsImlhdCI6MTYzOTYxNDAwOCwiZXhwIjoxNjM5NjE1MjA4fQ.mTVjZkHyav9fgbDPyFh9WtQcRTc2u0I0YlpPl0tIOMw
+Authorization: 
 
 ###
 
 GET http://warm-forest-14168.herokuapp.com/habits/leaderboard/Water
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyRW1haWwiOiJpbml0aWFsVXNlckBlbWFpbC5jb20iLCJ1c2VyTmFtZSI6IkluaXRpYWwgVXNlciIsImlhdCI6MTYzOTYxNDAwOCwiZXhwIjoxNjM5NjE1MjA4fQ.mTVjZkHyav9fgbDPyFh9WtQcRTc2u0I0YlpPl0tIOMw
+Authorization:
 
 ###
 
 POST http://warm-forest-14168.herokuapp.com/habits/initialUser@email.com
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyRW1haWwiOiJpbml0aWFsVXNlckBlbWFpbC5jb20iLCJ1c2VyTmFtZSI6IkluaXRpYWwgVXNlciIsImlhdCI6MTYzOTYxNDAwOCwiZXhwIjoxNjM5NjE1MjA4fQ.mTVjZkHyav9fgbDPyFh9WtQcRTc2u0I0YlpPl0tIOMw
+Authorization: 
 
 {
     "userName": "Initial User",
@@ -74,4 +74,4 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyRW1haWwiOiJpb
 
 DELETE http://warm-forest-14168.herokuapp.com/habits/61ba865c16f11bf42bca78b7
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyRW1haWwiOiJpbml0aWFsVXNlckBlbWFpbC5jb20iLCJ1c2VyTmFtZSI6IkluaXRpYWwgVXNlciIsImlhdCI6MTYzOTYxNDAwOCwiZXhwIjoxNjM5NjE1MjA4fQ.mTVjZkHyav9fgbDPyFh9WtQcRTc2u0I0YlpPl0tIOMw
+Authorization: 
